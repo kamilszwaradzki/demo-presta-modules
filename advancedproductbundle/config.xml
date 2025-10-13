@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <n>advancedproductbundle</n>
+    <displayName><![CDATA[Advanced Product Bundle Creator]]></displayName>
+    <version><![CDATA[1.0.0]]></version>
+    <description><![CDATA[Create product bundles with dynamic pricing]]></description>
+    <author><![CDATA[Kamil Szwaradzki]]></author>
+</module>
