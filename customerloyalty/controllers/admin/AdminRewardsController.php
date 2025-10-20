@@ -20,6 +20,6 @@ class AdminRewardsController extends ModuleAdminController
             'rewards' => $rewards,
         ]);
 
-        $this->setTemplate('admin/dashboard.tpl');
+        $this->setTemplate('dashboard.tpl', ['customerloyalty']);
     }
 }

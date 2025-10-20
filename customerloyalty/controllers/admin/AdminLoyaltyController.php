@@ -3,8 +3,8 @@ class AdminLoyaltyController extends ModuleAdminController
 {
     public function __construct()
     {
-        parent::__construct();
         $this->bootstrap = true;
+        parent::__construct();
     }
 
     public function initContent()
@@ -19,7 +19,11 @@ class AdminLoyaltyController extends ModuleAdminController
         $this->context->smarty->assign([
             'loyaltyData' => $loyaltyData,
         ]);
+        $this->setTemplate('dashboard.tpl', ['customerloyalty']);
+    }
 
-        $this->setTemplate('admin/dashboard.tpl');
+    public function renderList()
+    {
+        return 'AdminLoyalty działa poprawnie';
     }
 }

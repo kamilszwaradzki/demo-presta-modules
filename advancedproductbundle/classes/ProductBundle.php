@@ -1,9 +1,9 @@
 <?php
 
-class Bundle extends ObjectModel
+class ProductBundle extends ObjectModel
 {
     public $id_bundle;
-    public $id_product;
+    public $name;
     public $discount_type;
     public $discount_value;
     public $active;
@@ -14,9 +14,9 @@ class Bundle extends ObjectModel
         'table' => 'product_bundle',
         'primary' => 'id_bundle',
         'fields' => [
-            'id_product' => [
-                'type' => self::TYPE_INT,
-                'validate' => 'isUnsignedId',
+            'name' => [
+                'type' => self::TYPE_STRING, 
+                'validate' => 'isGenericName', 
                 'required' => true
             ],
             'discount_type' => [
@@ -45,16 +45,68 @@ class Bundle extends ObjectModel
         ]
     ];
 
-    public function getProduct()
+    public function __construct($id = null, $id_lang = null, $id_shop = null)
     {
-        return new Product($this->id_product, false, Context::getContext()->language->id);
+        parent::__construct($id, $id_lang, $id_shop);
+    }
+
+    public function add($auto_date = true, $null_values = false)
+    {
+        $return = parent::add($auto_date, $null_values);
+        
+        if ($return) {
+            $this->saveBundleProductsAfterAdd();
+        }
+        
+        return $return;
+    }
+
+    public function update($null_values = false)
+    {
+        $return = parent::update($null_values);
+        
+        if ($return) {
+            $this->saveBundleProductsAfterUpdate();
+        }
+        
+        return $return;
+    }
+
+    protected function saveBundleProductsAfterAdd()
+    {
+        $bundle_products = Tools::getValue('bundle_products');
+        
+        if (!empty($bundle_products) && is_array($bundle_products)) {
+            $position = 0;
+            foreach ($bundle_products as $product) {
+                $position++;
+                $id_product = (int)$product['id_product'];
+                if ($id_product > 0) {
+                    Db::getInstance()->insert('product_bundle_item', [
+                        'id_bundle' => (int)$this->id,
+                        'id_product' => $id_product,
+                        'quantity' => $product['quantity'],
+                        'position' => (int)$position
+                    ]);
+                }
+            }
+        }
+    }
+
+    protected function saveBundleProductsAfterUpdate()
+    {
+        $this->saveBundleProductsAfterAdd();
     }
 
     public function getItems()
     {
+        if (!class_exists('BundleItem')) {
+            require_once _PS_MODULE_DIR_ . 'advancedproductbundle/classes/BundleItem.php';
+        }
         return BundleItem::getByBundleId($this->id_bundle);
     }
 
+    
     public function calculatePrice($with_tax = true)
     {
         $items = $this->getItems();
@@ -92,74 +144,14 @@ class Bundle extends ObjectModel
         return $this->getOriginalPrice($with_tax) - $this->calculatePrice($with_tax);
     }
 
-    public function hasStock($quantity = 1)
-    {
-        $items = $this->getItems();
-
-        foreach ($items as $item) {
-            $stock = StockAvailable::getQuantityAvailableByProduct($item->id_product);
-            
-            if ($stock < ($item->quantity * $quantity)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     public static function getByProductId($id_product)
     {
         $id_bundle = Db::getInstance()->getValue(
-            'SELECT id_bundle FROM `'._DB_PREFIX_.'product_bundle` 
+            'SELECT pb.id_bundle FROM `'._DB_PREFIX_.'product_bundle` pb
+            INNER JOIN `'._DB_PREFIX_.'product_bundle_item` pbi on pb.id_bundle = pbi.id_bundle
             WHERE id_product = '.(int)$id_product
         );
 
         return $id_bundle ? new self($id_bundle) : false;
-    }
-
-    public static function getActiveBundles()
-    {
-        $results = Db::getInstance()->executeS(
-            'SELECT * FROM `'._DB_PREFIX_.'product_bundle` 
-            WHERE active = 1 
-            ORDER BY date_add DESC'
-        );
-
-        $bundles = [];
-        foreach ($results as $row) {
-            $bundle = new self();
-            $bundle->hydrate($row);
-            $bundles[] = $bundle;
-        }
-
-        return $bundles;
-    }
-
-    public static function getStatistics($days = 30)
-    {
-        // TODO: add fetch product_bundle by order's date
-        $date_from = date('Y-m-d', strtotime('-'.$days.' days'));
-
-        $stats = [];
-
-    
-        $stats['total_bundles'] = (int)Db::getInstance()->getValue(
-            'SELECT COUNT(*) FROM `'._DB_PREFIX_.'product_bundle` WHERE active = 1'
-        );
-
-        $stats['total_sales'] = 0;
-        $stats['total_revenue'] = 0;
-
-        return $stats;
-    }
-
-    public function delete()
-    {
-        Db::getInstance()->delete(
-            'product_bundle_item',
-            'id_bundle = '.(int)$this->id_bundle
-        );
-
-        return parent::delete();
     }
 }

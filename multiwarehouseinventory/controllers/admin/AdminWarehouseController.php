@@ -14,23 +14,23 @@ class AdminWarehouseController extends ModuleAdminController
 
         $this->fields_list = [
             'id_warehouse' => [
-                'title' => $this->l('ID'),
+                'title' => $this->trans('ID'),
                 'align' => 'center',
                 'class' => 'fixed-width-xs'
             ],
             'name' => [
-                'title' => $this->l('Name'),
+                'title' => $this->trans('Name'),
                 'width' => 'auto'
             ],
             'city' => [
-                'title' => $this->l('City')
+                'title' => $this->trans('City')
             ],
             'priority' => [
-                'title' => $this->l('Priority'),
+                'title' => $this->trans('Priority'),
                 'align' => 'center'
             ],
             'active' => [
-                'title' => $this->l('Active'),
+                'title' => $this->trans('Active'),
                 'active' => 'status',
                 'type' => 'bool',
                 'align' => 'center'
@@ -39,9 +39,9 @@ class AdminWarehouseController extends ModuleAdminController
 
         $this->bulk_actions = [
             'delete' => [
-                'text' => $this->l('Delete selected'),
+                'text' => $this->trans('Delete selected'),
                 'icon' => 'icon-trash',
-                'confirm' => $this->l('Delete selected warehouses?')
+                'confirm' => $this->trans('Delete selected warehouses?')
             ]
         ];
 
@@ -54,54 +54,54 @@ class AdminWarehouseController extends ModuleAdminController
     {
         $this->fields_form = [
             'legend' => [
-                'title' => $this->l('Warehouse'),
+                'title' => $this->trans('Warehouse'),
                 'icon' => 'icon-home'
             ],
             'input' => [
                 [
                     'type' => 'text',
-                    'label' => $this->l('Name'),
+                    'label' => $this->trans('Name'),
                     'name' => 'name',
                     'required' => true
                 ],
                 [
                     'type' => 'textarea',
-                    'label' => $this->l('Address'),
+                    'label' => $this->trans('Address'),
                     'name' => 'address'
                 ],
                 [
                     'type' => 'text',
-                    'label' => $this->l('City'),
+                    'label' => $this->trans('City'),
                     'name' => 'city'
                 ],
                 [
                     'type' => 'text',
-                    'label' => $this->l('Postcode'),
+                    'label' => $this->trans('Postcode'),
                     'name' => 'postcode'
                 ],
                 [
                     'type' => 'text',
-                    'label' => $this->l('Phone'),
+                    'label' => $this->trans('Phone'),
                     'name' => 'phone'
                 ],
                 [
                     'type' => 'text',
-                    'label' => $this->l('Priority'),
+                    'label' => $this->trans('Priority'),
                     'name' => 'priority',
                     'class' => 'fixed-width-sm'
                 ],
                 [
                     'type' => 'switch',
-                    'label' => $this->l('Active'),
+                    'label' => $this->trans('Active'),
                     'name' => 'active',
                     'values' => [
-                        ['id' => 'active_on', 'value' => 1, 'label' => $this->l('Yes')],
-                        ['id' => 'active_off', 'value' => 0, 'label' => $this->l('No')]
+                        ['id' => 'active_on', 'value' => 1, 'label' => $this->trans('Yes')],
+                        ['id' => 'active_off', 'value' => 0, 'label' => $this->trans('No')]
                     ]
                 ]
             ],
             'submit' => [
-                'title' => $this->l('Save')
+                'title' => $this->trans('Save')
             ]
         ];
 

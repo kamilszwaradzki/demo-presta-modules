@@ -21,6 +21,6 @@ class AdminStockMovementController extends ModuleAdminController
             'stats' => $stats,
         ]);
 
-        $this->setTemplate('admin/dashboard.tpl');
+        $this->setTemplate('dashboard.tpl', ['multiwarehouseinventory']);
     }
 }

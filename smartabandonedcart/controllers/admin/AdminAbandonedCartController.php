@@ -14,28 +14,28 @@ class AdminAbandonedCartController extends ModuleAdminController
 
         $this->fields_list = [
             'id_abandoned_cart' => [
-                'title' => $this->l('ID'),
+                'title' => $this->trans('ID'),
                 'align' => 'center',
                 'class' => 'fixed-width-xs'
             ],
             'email' => [
-                'title' => $this->l('Email')
+                'title' => $this->trans('Email')
             ],
             'cart_total' => [
-                'title' => $this->l('Total'),
+                'title' => $this->trans('Total'),
                 'type' => 'price',
                 'align' => 'right'
             ],
             'abandoned_date' => [
-                'title' => $this->l('Date'),
+                'title' => $this->trans('Date'),
                 'type' => 'datetime'
             ],
             'reminder_count' => [
-                'title' => $this->l('Reminders'),
+                'title' => $this->trans('Reminders'),
                 'align' => 'center'
             ],
             'recovered' => [
-                'title' => $this->l('Recovered'),
+                'title' => $this->trans('Recovered'),
                 'type' => 'bool',
                 'align' => 'center'
             ]
@@ -43,8 +43,8 @@ class AdminAbandonedCartController extends ModuleAdminController
 
         $this->bulk_actions = [
             'delete' => [
-                'text' => $this->l('Delete selected'),
-                'confirm' => $this->l('Delete selected items?')
+                'text' => $this->trans('Delete selected'),
+                'confirm' => $this->trans('Delete selected items?')
             ]
         ];
     }
@@ -59,7 +59,8 @@ class AdminAbandonedCartController extends ModuleAdminController
             'cart' => $cart,
             'products' => $products,
             'emails' => $emails,
-            'customer' => $cart->getCustomer()
+            'customer' => $cart->getCustomer(),
+            'link' => Context::getContext()->link,
         ]);
 
         return $this->context->smarty->fetch(

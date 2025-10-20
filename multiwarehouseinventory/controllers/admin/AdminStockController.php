@@ -22,9 +22,9 @@ class AdminStockController extends ModuleAdminController
             $qty = (int)Tools::getValue('quantity');
 
             if ($from && $to && $qty > 0) {
-                $this->confirmations[] = $this->l('Transfer executed successfully.');
+                $this->confirmations[] = $this->trans('Transfer executed successfully.');
             } else {
-                $this->errors[] = $this->l('Invalid transfer data.');
+                $this->errors[] = $this->trans('Invalid transfer data.');
             }
         }
 
@@ -32,6 +32,6 @@ class AdminStockController extends ModuleAdminController
             'warehouses' => $warehouses,
         ]);
 
-        $this->setTemplate('admin/stock_transfer.tpl');
+        $this->setTemplate('stock_transfer.tpl', ['multiwarehouseinventory']);
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
-    <name>modulename</name>
+    <name>customerloyalty</name>
     <displayName><![CDATA[Customer Loyalty & Rewards]]></displayName>
     <version><![CDATA[1.0.0]]></version>
     <description><![CDATA[Complete loyalty program with gamification]]></description>

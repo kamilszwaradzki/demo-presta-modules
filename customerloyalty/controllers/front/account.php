@@ -1,4 +1,7 @@
 <?php
+/*
+* CustomerloyaltyAccountModuleFrontController
+*/
 class CustomerLoyaltyAccountModuleFrontController extends ModuleFrontController
 {
     public function initContent()
@@ -14,6 +17,6 @@ class CustomerLoyaltyAccountModuleFrontController extends ModuleFrontController
             'account' => $accountData,
         ]);
 
-        $this->setTemplate('front/account.tpl');
+        $this->setTemplate('module:customerloyalty/views/templates/front/account.tpl');
     }
 }

@@ -14,6 +14,6 @@ class CustomerLoyaltyRedeemModuleFrontController extends ModuleFrontController
             'rewards' => $availableRewards,
         ]);
 
-        $this->setTemplate('front/rewards.tpl');
+        $this->setTemplate('rewards.tpl', ['customerloyalty']);
     }
 }
